@@ -56,7 +56,7 @@ public class ContactsList {
 
     private boolean isIndex(int index) {
         if (index >= size || index < 0) {
-            System.out.println("Контакта с таким номером не существует!");
+            System.out.println("Контакта с таким порядковым номером не существует!");
             return false;
         }
         return true;

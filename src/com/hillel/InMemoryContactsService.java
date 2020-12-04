@@ -1,11 +1,8 @@
 package com.hillel;
 
 public class InMemoryContactsService implements ContactsService {
-    private ContactsList contactsList;
 
-    public InMemoryContactsService(ContactsList contactsList) {
-        this.contactsList = contactsList;
-    }
+    private final ContactsList contactsList = new ContactsList();
 
     @Override
     public ContactsList getAll() {
@@ -22,9 +19,11 @@ public class InMemoryContactsService implements ContactsService {
 
     @Override
     public void add(Contact contact) {
-        if (!contactsList.contains(contact)) {
+        if (contactsList.contains(contact)) {
+            System.out.println(contact + " уже существует в телефонной книге!");
+        } else {
             contactsList.add(contact);
             System.out.println(contact + " добавлен в телефонную книгу.");
-        } else System.out.println(contact + " уже существует в телефонной книге!");
+        }
     }
 }

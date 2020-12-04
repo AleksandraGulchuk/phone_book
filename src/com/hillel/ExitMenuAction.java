@@ -1,10 +1,9 @@
 package com.hillel;
 
-import java.io.IOException;
-
 public class ExitMenuAction implements MenuAction {
+
     @Override
-    public void doAction(ContactsService contactsService) throws IOException {
+    public void doAction(ContactsService contactsService) {
         System.out.println("Спасибо! Хорошего дня!");
     }
 

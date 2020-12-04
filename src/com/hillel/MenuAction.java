@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public interface MenuAction {
 
-    public void doAction(ContactsService contactsService) throws IOException;
+    void doAction(ContactsService contactsService) throws IOException;
 
-    public String getName();
+    String getName();
 
-    public boolean closeAfter();
+    boolean closeAfter();
 }

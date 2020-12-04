@@ -1,10 +1,12 @@
 package com.hillel;
 
+import java.io.IOException;
+
 public interface ContactsService {
 
-    public ContactsList getAll();
+    ContactsList getAll() throws IOException;
 
-    public void remove(int index);
+    void remove(int index) throws IOException;
 
-    public void add(Contact contact);
+    void add(Contact contact) throws IOException;
 }

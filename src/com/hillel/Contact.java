@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class Contact {
 
-    private String name;
-    private String phone;
+    private final String name;
+    private final String phone;
 
     public Contact(String name, String phone) {
         this.name = name;

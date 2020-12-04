@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 
 public class AddContactMenuAction implements MenuAction {
 
-
     @Override
     public void doAction(ContactsService contactsService) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

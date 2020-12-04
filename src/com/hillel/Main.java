@@ -6,22 +6,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        ContactsList contactsList = new ContactsList();
-        ContactsService contactsService = new InMemoryContactsService(contactsList);
-        MenuAction[] actions = {
-                new ReadAllContactsMenuAction(),
-                new AddContactMenuAction(),
-                new RemoveContactMenuAction(),
-                new ExitMenuAction()
-        };
-        Menu menu = new Menu(actions, contactsService);
+//        ContactsService contactsService = new InMemoryContactsService();
+        ContactsService contactsService = new InFileContactsService();
 
-        int choice = 0;
-        while (choice != 4) {
-            menu.run();
-            choice = menu.getChoice();
-            menu.doAction(choice);
-        }
+        Menu menu = new Menu(contactsService);
+        menu.addAction(new ReadAllContactsMenuAction(), new AddContactMenuAction(),
+                new RemoveContactMenuAction(), new ExitMenuAction());
+        menu.run();
 
     }
 }
