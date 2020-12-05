@@ -2,13 +2,20 @@ package com.hillel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class RemoveContactMenuAction implements MenuAction {
+
+    private final ContactsService contactsService;
+    private BufferedReader reader;
+
+    public RemoveContactMenuAction(ContactsService contactsService, BufferedReader reader) {
+        this.contactsService = contactsService;
+        this.reader = reader;
+    }
+
     @Override
-    public void doAction(ContactsService contactsService) throws IOException {
+    public void doAction() throws IOException {
         int index = 0;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (index == 0) {
             System.out.println("Введите порядковый номер контакта: ");
             try {

@@ -1,6 +1,6 @@
 package com.hillel;
 
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
 
@@ -8,11 +8,10 @@ public class Main {
 
 //        ContactsService contactsService = new InMemoryContactsService();
         ContactsService contactsService = new InFileContactsService();
-
-        Menu menu = new Menu(contactsService);
-        menu.addAction(new ReadAllContactsMenuAction(), new AddContactMenuAction(),
-                new RemoveContactMenuAction(), new ExitMenuAction());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Menu menu = new Menu(contactsService, reader);
+        menu.addAction(new ReadAllContactsMenuAction(contactsService), new AddContactMenuAction(contactsService, reader),
+                new RemoveContactMenuAction(contactsService, reader), new ExitMenuAction(contactsService));
         menu.run();
-
     }
 }

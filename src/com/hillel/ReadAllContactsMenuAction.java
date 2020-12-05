@@ -4,9 +4,14 @@ import java.io.IOException;
 
 public class ReadAllContactsMenuAction implements MenuAction {
 
+    private final ContactsService contactsService;
+
+    public ReadAllContactsMenuAction(ContactsService contactsService) {
+        this.contactsService = contactsService;
+    }
 
     @Override
-    public void doAction(ContactsService contactsService) throws IOException {
+    public void doAction() throws IOException {
         System.out.println("Ваш список контактов:");
         System.out.println(contactsService.getAll());
     }

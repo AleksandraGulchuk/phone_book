@@ -2,15 +2,16 @@ package com.hillel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
 
 public class Menu {
-    private final ContactsService contactsService;
-    private MenuAction[] actions;
 
-    public Menu(ContactsService contactsService) {
+    private MenuAction[] actions;
+    private final ContactsService contactsService;
+    private BufferedReader reader;
+
+    public Menu(ContactsService contactsService, BufferedReader reader) {
         this.contactsService = contactsService;
+        this.reader = reader;
     }
 
     public void addAction(MenuAction... actions) {
@@ -18,11 +19,13 @@ public class Menu {
     }
 
     public void run() throws IOException {
-        int choice = 0;
-        while (choice != actions.length) {
+        int choice;
+        boolean isCloseAfter = false;
+        while (!isCloseAfter) {
             printActionsName();
             choice = getChoice();
-            actions[choice - 1].doAction(contactsService);
+            actions[choice - 1].doAction();
+            isCloseAfter = actions[choice - 1].closeAfter();
         }
     }
 
@@ -33,7 +36,6 @@ public class Menu {
     }
 
     private int getChoice() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int choice = 0;
         while (choice <= 0 || choice > actions.length) {
             System.out.println("Сделайте свой выбор:");

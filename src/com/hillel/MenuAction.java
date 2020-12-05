@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface MenuAction {
 
-    void doAction(ContactsService contactsService) throws IOException;
+    void doAction() throws IOException;
 
     String getName();
 
