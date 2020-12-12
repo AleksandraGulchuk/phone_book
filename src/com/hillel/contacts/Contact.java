@@ -1,4 +1,4 @@
-package com.hillel;
+package com.hillel.contacts;
 
 import java.util.Arrays;
 
@@ -22,7 +22,7 @@ public class Contact {
 
     @Override
     public String toString() {
-        return "Контакт { имя: " + name + ", телефон: " + phone + " }";
+        return "Имя: " + name + ", телефон: " + phone;
     }
 
     @Override

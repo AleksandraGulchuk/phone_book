@@ -1,4 +1,4 @@
-package com.hillel;
+package com.hillel.contacts;
 
 import java.util.Arrays;
 
@@ -64,7 +64,6 @@ public class ContactsList {
 
     @Override
     public String toString() {
-        if (size == 0) return "Список пуст!";
         StringBuilder string = new StringBuilder();
         for (int i = 0; i < size; i++) {
             string.append(i + 1).append(". ").append(contacts[i]).append("\n");

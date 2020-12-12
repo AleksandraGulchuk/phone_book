@@ -1,4 +1,7 @@
-package com.hillel;
+package com.hillel.service;
+
+import com.hillel.contacts.Contact;
+import com.hillel.contacts.ContactsList;
 
 import java.io.IOException;
 

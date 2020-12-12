@@ -1,4 +1,7 @@
-package com.hillel;
+package com.hillel.menu.actions;
+
+import com.hillel.service.ContactsService;
+import com.hillel.menu.MenuAction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,12 +9,13 @@ import java.io.IOException;
 public class RemoveContactMenuAction implements MenuAction {
 
     private final ContactsService contactsService;
-    private BufferedReader reader;
+    private final BufferedReader reader;
 
     public RemoveContactMenuAction(ContactsService contactsService, BufferedReader reader) {
         this.contactsService = contactsService;
         this.reader = reader;
     }
+
 
     @Override
     public void doAction() throws IOException {

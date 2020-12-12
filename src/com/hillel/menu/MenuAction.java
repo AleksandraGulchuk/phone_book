@@ -1,4 +1,4 @@
-package com.hillel;
+package com.hillel.menu;
 
 import java.io.IOException;
 

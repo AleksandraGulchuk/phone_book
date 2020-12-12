@@ -1,12 +1,8 @@
-package com.hillel;
+package com.hillel.menu.actions;
+
+import com.hillel.menu.MenuAction;
 
 public class ExitMenuAction implements MenuAction {
-
-    private final ContactsService contactsService;
-
-    public ExitMenuAction(ContactsService contactsService) {
-        this.contactsService = contactsService;
-    }
 
     @Override
     public void doAction() {

@@ -1,4 +1,8 @@
-package com.hillel;
+package com.hillel.menu.actions;
+
+import com.hillel.contacts.ContactsList;
+import com.hillel.service.ContactsService;
+import com.hillel.menu.MenuAction;
 
 import java.io.IOException;
 
@@ -13,7 +17,10 @@ public class ReadAllContactsMenuAction implements MenuAction {
     @Override
     public void doAction() throws IOException {
         System.out.println("Ваш список контактов:");
-        System.out.println(contactsService.getAll());
+        ContactsList contacts = contactsService.getAll();
+        if (contacts.size() == 0) {
+            System.out.println("Список пуст!");
+        } else System.out.println(contactsService.getAll());
     }
 
     @Override
