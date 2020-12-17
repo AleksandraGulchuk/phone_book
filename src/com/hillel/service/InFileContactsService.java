@@ -49,4 +49,40 @@ public class InFileContactsService implements ContactsService {
         }
         bufferedWriter.close();
     }
+
+    @Override
+    public ContactsList searchByName(String nameStartsWith) throws IOException {
+        ContactsList contacts = getAll();
+        if (contacts.size() == 0) {
+            return null;
+        }
+        ContactsList foundContacts = new ContactsList();
+        for (int i = 0; i < contacts.size(); i++) {
+            String name = contacts.get(i).getName();
+            if (name.startsWith(nameStartsWith)) {
+                foundContacts.add(contacts.get(i));
+            }
+        }
+        if (foundContacts.size() == 0) {
+            return null;
+        } else return foundContacts;
+    }
+
+    @Override
+    public ContactsList searchByPhone(String phonePart) throws IOException {
+        ContactsList contacts = getAll();
+        if (contacts.size() == 0) {
+            return null;
+        }
+        ContactsList foundContacts = new ContactsList();
+        for (int i = 0; i < contacts.size(); i++) {
+            String phone = contacts.get(i).getPhone();
+            if (phone.contains(phonePart)) {
+                foundContacts.add(contacts.get(i));
+            }
+        }
+        if (foundContacts.size() == 0) {
+            return null;
+        } else return foundContacts;
+    }
 }

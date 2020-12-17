@@ -12,4 +12,9 @@ public interface ContactsService {
     void remove(int index) throws IOException;
 
     void add(Contact contact) throws IOException;
+
+    ContactsList searchByName(String nameStartsWith) throws IOException;
+
+    ContactsList searchByPhone(String phonePart) throws IOException;
+
 }

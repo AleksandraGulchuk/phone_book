@@ -16,28 +16,10 @@ public class SearchByNameMenuAction implements MenuAction {
         this.reader = reader;
     }
 
-    private ContactsList searchContacts(String nameStartsWith) throws IOException {
-        ContactsList contacts = contactsService.getAll();
-        if (contacts.size() == 0) {
-            System.out.println("Список пуст!");
-            return null;
-        }
-        ContactsList foundContacts = new ContactsList();
-        for (int i = 0; i < contacts.size(); i++) {
-            String name = contacts.get(i).getName();
-            if (name.startsWith(nameStartsWith)) {
-                foundContacts.add(contacts.get(i));
-            }
-        }
-        if (foundContacts.size() == 0) {
-            return null;
-        } else return foundContacts;
-    }
-
     @Override
     public void doAction() throws IOException {
         System.out.println("Введите начало имени: ");
-        ContactsList foundContacts = searchContacts(reader.readLine());
+        ContactsList foundContacts = contactsService.searchByName(reader.readLine());
         if (foundContacts == null) {
             System.out.println("Контакт не найден");
         } else {

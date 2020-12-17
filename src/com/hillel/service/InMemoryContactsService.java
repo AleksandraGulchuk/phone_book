@@ -29,4 +29,41 @@ public class InMemoryContactsService implements ContactsService {
             System.out.println(contact + " добавлен в телефонную книгу.");
         }
     }
+
+    @Override
+    public ContactsList searchByName(String nameStartsWith) {
+        ContactsList contacts = getAll();
+        if (contacts.size() == 0) {
+            return null;
+        }
+        ContactsList foundContacts = new ContactsList();
+        for (int i = 0; i < contacts.size(); i++) {
+            String name = contacts.get(i).getName();
+            if (name.startsWith(nameStartsWith)) {
+                foundContacts.add(contacts.get(i));
+            }
+        }
+        if (foundContacts.size() == 0) {
+            return null;
+        } else return foundContacts;
+    }
+
+    @Override
+    public ContactsList searchByPhone(String phonePart) {
+        ContactsList contacts = getAll();
+        if (contacts.size() == 0) {
+            return null;
+        }
+        ContactsList foundContacts = new ContactsList();
+        for (int i = 0; i < contacts.size(); i++) {
+            String phone = contacts.get(i).getPhone();
+            if (phone.contains(phonePart)) {
+                foundContacts.add(contacts.get(i));
+            }
+        }
+        if (foundContacts.size() == 0) {
+            return null;
+        } else return foundContacts;
+    }
+
 }
