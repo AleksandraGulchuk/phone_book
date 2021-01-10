@@ -1,20 +1,20 @@
 package com.hillel.service;
 
 import com.hillel.contacts.Contact;
-import com.hillel.contacts.ContactsList;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface ContactsService {
 
-    ContactsList getAll() throws IOException;
+    List<Contact> getAll() throws IOException;
 
     void remove(int index) throws IOException;
 
     void add(Contact contact) throws IOException;
 
-    ContactsList searchByName(String nameStartsWith) throws IOException;
+    List<Contact> searchByName(String nameStartsWith) throws IOException;
 
-    ContactsList searchByPhone(String phonePart) throws IOException;
+    List<Contact> searchByPhone(String phonePart) throws IOException;
 
 }

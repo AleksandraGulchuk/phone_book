@@ -10,8 +10,10 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         ContactsService contactsService = new InFileContactsService();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         MenuAction[] actions = new MenuAction[]{
                 new ReadAllContactsMenuAction(contactsService),
                 new AddContactMenuAction(contactsService, reader),
@@ -20,6 +22,7 @@ public class Main {
                 new SearchByNameMenuAction(contactsService, reader),
                 new ExitMenuAction()
         };
+
         Menu menu = new Menu(contactsService, reader, actions);
         menu.run();
     }

@@ -16,20 +16,15 @@ public class RemoveContactMenuAction implements MenuAction {
         this.reader = reader;
     }
 
-
     @Override
     public void doAction() throws IOException {
-        int index = 0;
-        while (index == 0) {
-            System.out.println("Введите порядковый номер контакта: ");
-            try {
-                index = Integer.parseInt(reader.readLine());
-            } catch (NumberFormatException exception) {
-                System.out.println("Вы ввели некорректное значение!");
-                index = 0;
-            }
+        System.out.println("Введите порядковый номер контакта: ");
+        try {
+            int index = Integer.parseInt(reader.readLine());
+            contactsService.remove(index);
+        } catch (NumberFormatException exception) {
+            System.out.println("Вы ввели некорректное значение!");
         }
-        contactsService.remove(index);
     }
 
     @Override

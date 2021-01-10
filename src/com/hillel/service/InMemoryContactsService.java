@@ -1,21 +1,24 @@
 package com.hillel.service;
 
 import com.hillel.contacts.Contact;
-import com.hillel.contacts.ContactsList;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class InMemoryContactsService implements ContactsService {
 
-    private final ContactsList contactsList = new ContactsList();
+    private final List<Contact> contactsList = new ArrayList<>();
 
     @Override
-    public ContactsList getAll() {
+    public List<Contact> getAll() {
         return contactsList;
     }
 
     @Override
     public void remove(int index) {
-        Contact removedContact = contactsList.remove(index - 1);
-        if (removedContact != null) {
+        if (isIndex(index)) {
+            Contact removedContact = contactsList.remove(index - 1);
             System.out.println(removedContact + " удален из телефонной книги.");
         }
     }
@@ -31,39 +34,32 @@ public class InMemoryContactsService implements ContactsService {
     }
 
     @Override
-    public ContactsList searchByName(String nameStartsWith) {
-        ContactsList contacts = getAll();
-        if (contacts.size() == 0) {
-            return null;
+    public List<Contact> searchByName(String nameStartsWith) {
+        List<Contact> contacts = getAll();
+        if (contacts.isEmpty()) {
+            return contacts;
         }
-        ContactsList foundContacts = new ContactsList();
-        for (int i = 0; i < contacts.size(); i++) {
-            String name = contacts.get(i).getName();
-            if (name.startsWith(nameStartsWith)) {
-                foundContacts.add(contacts.get(i));
-            }
-        }
-        if (foundContacts.size() == 0) {
-            return null;
-        } else return foundContacts;
+        return contacts.stream()
+                .filter(contact -> contact.getName().startsWith(nameStartsWith))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ContactsList searchByPhone(String phonePart) {
-        ContactsList contacts = getAll();
-        if (contacts.size() == 0) {
-            return null;
+    public List<Contact> searchByPhone(String phonePart) {
+        List<Contact> contacts = getAll();
+        if (contacts.isEmpty()) {
+            return contacts;
         }
-        ContactsList foundContacts = new ContactsList();
-        for (int i = 0; i < contacts.size(); i++) {
-            String phone = contacts.get(i).getPhone();
-            if (phone.contains(phonePart)) {
-                foundContacts.add(contacts.get(i));
-            }
-        }
-        if (foundContacts.size() == 0) {
-            return null;
-        } else return foundContacts;
+        return contacts.stream()
+                .filter(contact -> contact.getPhone().contains(phonePart))
+                .collect(Collectors.toList());
     }
 
+    private boolean isIndex(int index) {
+        if (index > contactsList.size() || index <= 0) {
+            System.out.println("Контакта с таким порядковым номером не существует!");
+            return false;
+        }
+        return true;
+    }
 }

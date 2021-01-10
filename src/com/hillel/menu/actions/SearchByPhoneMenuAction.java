@@ -1,11 +1,12 @@
 package com.hillel.menu.actions;
 
-import com.hillel.contacts.ContactsList;
+import com.hillel.contacts.Contact;
 import com.hillel.menu.MenuAction;
 import com.hillel.service.ContactsService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 public class SearchByPhoneMenuAction implements MenuAction {
 
@@ -21,12 +22,14 @@ public class SearchByPhoneMenuAction implements MenuAction {
     @Override
     public void doAction() throws IOException {
         System.out.println("Введите часть номера телефона: ");
-        ContactsList foundContacts = contactsService.searchByPhone(reader.readLine());
-        if (foundContacts == null) {
-            System.out.println("Контакт не найден");
+        List<Contact> foundContacts = contactsService.searchByPhone(reader.readLine());
+        if (foundContacts.isEmpty()) {
+            System.out.println("Контакты не найдены.");
         } else {
-            System.out.println("Найдены контакты:\n" + foundContacts);
+            System.out.println("Найдены контакты:");
+            foundContacts.forEach(contact -> System.out.println(contact));
         }
+
     }
 
     @Override
