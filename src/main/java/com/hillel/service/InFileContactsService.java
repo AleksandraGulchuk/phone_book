@@ -32,7 +32,7 @@ public class InFileContactsService implements ContactsService {
             Contact removedContact = contactsList.remove(index - 1);
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
             if (removedContact != null) {
-                System.out.println("Контакт " + removedContact + " удален из телефонной книги.");
+                System.out.println(removedContact + " удален из телефонной книги.");
             }
             for (Contact contact : contactsList) {
                 bufferedWriter.write(contact.getName() + "-" + contact.getPhone() + "\n");
