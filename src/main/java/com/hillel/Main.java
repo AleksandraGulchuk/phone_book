@@ -3,15 +3,15 @@ package com.hillel;
 import com.hillel.menu.*;
 import com.hillel.menu.actions.*;
 import com.hillel.service.ContactsService;
-import com.hillel.service.InMemoryContactsService;
+import com.hillel.service.InFileContactsService;
 
 import java.io.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        ContactsService contactsService = new InMemoryContactsService();
+        ContactsService contactsService = new InFileContactsService();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         MenuAction[] actions = new MenuAction[]{
@@ -24,7 +24,11 @@ public class Main {
         };
 
         Menu menu = new Menu(contactsService, reader, actions);
-        menu.run();
+        try {
+            menu.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

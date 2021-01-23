@@ -21,7 +21,7 @@ public class SearchByPhoneMenuAction implements MenuAction {
 
     @Override
     public void doAction() throws IOException {
-        System.out.println("Введите часть номера телефона: ");
+        System.out.println("Введите часть номера телефона или адреса электронной почты: ");
         List<Contact> foundContacts = contactsService.searchByPhone(reader.readLine());
         if (foundContacts.isEmpty()) {
             System.out.println("Контакты не найдены.");

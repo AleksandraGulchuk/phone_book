@@ -1,74 +1,105 @@
 package com.hillel.service;
 
 import com.hillel.contacts.Contact;
+import com.hillel.contacts.Type;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class InFileContactsService implements ContactsService {
 
-    private final String FILE_NAME = "contactsList.txt";
+    private final File contactsFile = new File("contactsFile.txt");
+
 
     @Override
-    public List<Contact> getAll() throws IOException {
+    public List<Contact> getAll() {
         List<Contact> contactsList = new ArrayList<>();
-        String currentLine;
-        String[] currentLineArray;
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME));
-        while ((currentLine = bufferedReader.readLine()) != null) {
-            currentLineArray = currentLine.split("-");
-            contactsList.add(new Contact(currentLineArray[0], currentLineArray[1]));
+        createFile();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(contactsFile))) {
+            String currentLine;
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                Contact contact = getContact(currentLine);
+                if (contact != null) contactsList.add(contact);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        bufferedReader.close();
         return contactsList;
     }
 
     @Override
-    public void remove(int index) throws IOException {
+    public void remove(int index) {
         List<Contact> contactsList = getAll();
         if (isIndex(index, contactsList)) {
             Contact removedContact = contactsList.remove(index - 1);
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME));
-            if (removedContact != null) {
-                System.out.println(removedContact + " удален из телефонной книги.");
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(contactsFile));) {
+                if (removedContact != null) {
+                    System.out.println(removedContact + " удален из телефонной книги.");
+                }
+                for (Contact contact : contactsList) {
+                    bufferedWriter.write(contact + "\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            for (Contact contact : contactsList) {
-                bufferedWriter.write(contact.getName() + "-" + contact.getPhone() + "\n");
-            }
-            bufferedWriter.close();
         }
     }
 
     @Override
-    public void add(Contact contact) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
-        List<Contact> contactsList = getAll();
-        if (contactsList.contains(contact)) {
-            System.out.println(contact + " уже существует в телефонной книге!");
-        } else {
-            bufferedWriter.write(contact.getName() + "-" + contact.getPhone() + "\n");
-            System.out.println(contact + " добавлен в телефонную книгу.");
+    public void add(Contact contact) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(contactsFile, true))) {
+            List<Contact> contactsList = getAll();
+            if (!isContactExist(contact)) {
+                bufferedWriter.write(contact + "\n");
+                System.out.println(contact + " добавлен в телефонную книгу.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        bufferedWriter.close();
     }
 
     @Override
-    public List<Contact> searchByName(String nameStartsWith) throws IOException {
+    public List<Contact> searchByName(String nameStartsWith) {
         List<Contact> contacts = getAll();
         return contacts.stream()
                 .filter(contact -> contact.getName().startsWith(nameStartsWith))
                 .collect(Collectors.toList());
     }
 
-
     @Override
-    public List<Contact> searchByPhone(String phonePart) throws IOException {
+    public List<Contact> searchByPhone(String phonePart) {
         List<Contact> contacts = getAll();
         return contacts.stream()
                 .filter(contact -> contact.getPhone().contains(phonePart))
                 .collect(Collectors.toList());
+    }
+
+    private void createFile() {
+        try {
+            contactsFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Contact getContact(String currentLine) {
+        Pattern pattern = Pattern.compile("(.+)(?:\\[\\w+:)(.+)(?:])");
+        Matcher matcher = pattern.matcher(currentLine);
+        if (matcher.find()) {
+            String name = matcher.group(1);
+            String phone = matcher.group(2);
+            return new Contact(name, getType(phone), phone);
+        } else return null;
+    }
+
+    private Type getType(String phone) {
+        if (phone.matches("\\+38\\d{10}")) return Type.PHONE;
+        if (phone.matches("\\w+@\\w+\\.\\w+")) return Type.EMAIL;
+        return null;
     }
 
     private boolean isIndex(int index, List<Contact> contactsList) {
@@ -78,4 +109,15 @@ public class InFileContactsService implements ContactsService {
         }
         return true;
     }
+
+    private boolean isContactExist(Contact contact) {
+        List<Contact> contactsList = getAll();
+        if (contactsList.contains(contact)) {
+            System.out.println(contact + " уже существует в телефонной книге!");
+            return true;
+        }
+        return false;
+    }
+
+
 }

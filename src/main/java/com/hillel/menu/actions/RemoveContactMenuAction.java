@@ -17,12 +17,12 @@ public class RemoveContactMenuAction implements MenuAction {
     }
 
     @Override
-    public void doAction() throws IOException {
+    public void doAction() {
         System.out.println("Введите порядковый номер контакта: ");
         try {
             int index = Integer.parseInt(reader.readLine());
             contactsService.remove(index);
-        } catch (NumberFormatException exception) {
+        } catch (NumberFormatException | IOException exception) {
             System.out.println("Вы ввели некорректное значение!");
         }
     }

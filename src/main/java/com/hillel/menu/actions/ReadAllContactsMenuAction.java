@@ -16,7 +16,7 @@ public class ReadAllContactsMenuAction implements MenuAction {
     }
 
     @Override
-    public void doAction() throws IOException {
+    public void doAction() {
         System.out.println("Ваш список контактов:");
         List<Contact> contacts = contactsService.getAll();
         if (contacts.isEmpty()) {
