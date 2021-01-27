@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class InFileContactsService implements ContactsService {
 
-    private final File contactsFile = new File("contactsFile.txt");
+    private final File contactsFile = new File("contactsFile1.txt");
 
 
     @Override
@@ -22,7 +22,7 @@ public class InFileContactsService implements ContactsService {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(contactsFile))) {
             String currentLine;
             while ((currentLine = bufferedReader.readLine()) != null) {
-                Contact contact = getContact(currentLine);
+                Contact contact = getContactFromLine(currentLine);
                 if (contact != null) contactsList.add(contact);
             }
         } catch (IOException e) {
@@ -86,17 +86,17 @@ public class InFileContactsService implements ContactsService {
         }
     }
 
-    private Contact getContact(String currentLine) {
+    private Contact getContactFromLine(String currentLine) {
         Pattern pattern = Pattern.compile("(.+)(?:\\[\\w+:)(.+)(?:])");
         Matcher matcher = pattern.matcher(currentLine);
         if (matcher.find()) {
             String name = matcher.group(1);
             String phone = matcher.group(2);
-            return new Contact(name, getType(phone), phone);
+            return new Contact(name, extractType(phone), phone);
         } else return null;
     }
 
-    private Type getType(String phone) {
+    private Type extractType(String phone) {
         if (phone.matches("\\+38\\d{10}")) return Type.PHONE;
         if (phone.matches("\\w+@\\w+\\.\\w+")) return Type.EMAIL;
         return null;

@@ -34,7 +34,7 @@ public class SearchByPhoneMenuAction implements MenuAction {
 
     @Override
     public String getName() {
-        return "Поиск по части номера";
+        return "Поиск по части номера или адреса электронной почты";
     }
 
     @Override
